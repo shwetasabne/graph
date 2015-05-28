@@ -52,13 +52,28 @@ public class AdjacencyGraphList implements IGraph {
 	}
 	
 	public void deleteEdge(int s, int d){
+	//	System.out.println("Deleting "+s + " " +d );
 		List temp = (LinkedList)this.alist.get(s);
-		temp.remove(d);
+	//	System.out.println("orig source "+ temp.toString());
+		for(Iterator<Integer> it = temp.iterator(); it.hasNext();){
+			if(it.next() == d){
+				it.remove();
+				break;
+			}
+		}
+	//	System.out.println("change source "+ temp.toString());
 		this.alist.put(s, temp);
 		
-		temp = (LinkedList)this.alist.get(d);
-		temp.remove(s);
-		this.alist.put(d, temp);
+		List temp1 = (LinkedList)this.alist.get(d);
+	//	System.out.println("dest source "+ temp1.toString());
+		for(Iterator<Integer> it = temp1.iterator(); it.hasNext();){
+			if(it.next() == s){
+				it.remove();
+				break;
+			}
+		}
+		this.alist.put(d, temp1);
+	//	System.out.println("change dest "+ temp1.toString());
 	}
 	
 	public void printGraph(){
@@ -70,9 +85,9 @@ public class AdjacencyGraphList implements IGraph {
 			
 			List temp = (LinkedList)pair.getValue();
 			Iterator itrList = temp.iterator();
-			
+			System.out.print(pair.getKey() + " --> ");
 			while(itrList.hasNext()){
-				System.out.print( pair.getKey() + " --> "+ itrList.next() + "  --> ");
+				System.out.print(itrList.next() + "  --> ");
 			} 
 			System.out.println();
 		}
